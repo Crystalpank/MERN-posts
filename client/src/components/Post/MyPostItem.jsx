@@ -8,9 +8,6 @@ const MyPostItem = ({ post, remove, setLike }) => {
     const [localLike, setLocalLike] = useState(post.likes)
     const classList = ["cg_postItem-likes"]
 
-    // const [likeFetching, errorLikeFetching] = useFetching(async() => {
-    //     const response = await PostService.updatePost(token, )
-    // })
     if (post.whoLikes.includes(username)) {
         classList.push("active")
     }
