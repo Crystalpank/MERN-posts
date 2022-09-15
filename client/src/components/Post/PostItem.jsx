@@ -1,7 +1,31 @@
 import React from 'react';
 import { Card, Row, Col, Icon, CardTitle, Button } from 'react-materialize';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../App';
 
-const PostItem = ({ post }) => {
+const PostItem = ({ post, setLike }) => {
+    const { token, username } = useContext(AuthContext)
+    const [localLike, setLocalLike] = useState(post.likes)
+    const classList = ["cg_postItem-likes"]
+
+    // const [likeFetching, errorLikeFetching] = useFetching(async() => {
+    //     const response = await PostService.updatePost(token, )
+    // })
+    if (post.whoLikes.includes(username)) {
+        classList.push("active")
+    }
+    const doLike = (e) => {
+        if (e.target.parentElement.classList.contains("active")){
+            setLocalLike(prev => prev - 1)
+            e.target.parentElement.classList.remove("active")
+        }else{
+            setLocalLike(prev => prev + 1)
+            e.target.parentElement.classList.add("active")
+        }
+        
+        setLike(post)
+    }
+
     return (
         <div className="post-item">
             <Col
@@ -9,19 +33,21 @@ const PostItem = ({ post }) => {
                 s={12}>
                 <Card
                     closeIcon={<Icon>close</Icon>}
-                    header={<CardTitle image={`http://192.168.0.118:5000/${post.image}`} reveal waves="light" />}
+                    header={<CardTitle image={`/${post.image}`} reveal waves="light" />}
                     reveal={
-                        <div>
-                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                        <div className="cg_postItem-description">
+                            {/* <p>Here is some more information about this product that is only revealed once clicked on.</p> */}
+                            
                         </div>
                     }
                     revealIcon={<Icon>more_vert</Icon>}
                     title={post.title}>
-                    <p>
-                        <a href="#">
-                            This is a link
-                        </a>
-                    </p>
+                    <div className={classList.join(" ")} onClick={doLike}>
+
+                        <Icon className="icon-like">favorite</Icon>
+
+                        <span className="count-like">{localLike}</span>
+                    </div>
                 </Card>
             </Col>
         </div>

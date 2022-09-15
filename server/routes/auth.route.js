@@ -33,7 +33,8 @@ router.post("/registration",
             const user = new User({
                 username,
                 email,
-                password: hashPassword
+                password: hashPassword,
+                avatar: "avatar.png"
             })
             await user.save()
             const token = jwt.sign({ id: user.id }, config.get("secretKey"), {expiresIn: '1h'})
@@ -43,7 +44,8 @@ router.post("/registration",
                 user: {
                     username: user.username,
                     id: user.id,
-                    email: user.email
+                    email: user.email,
+                    avatar: user.avatar
                 }
             })
         } catch (e) {
@@ -75,7 +77,8 @@ router.post("/login", async (req, res) => {
             user: {
                 username: user.username,
                 id: user.id,
-                email: user.email
+                email: user.email,
+                avatar: user.avatar
             }
         })
     } catch (e) {
@@ -94,7 +97,8 @@ router.get('/auth', authMiddleware,
                 user: {
                     id: user.id,
                     email: user.email,
-                    username: user.username
+                    username: user.username,
+                    avatar: user.avatar
                 }
             })
         } catch (e) {

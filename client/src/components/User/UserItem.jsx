@@ -4,25 +4,27 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const UserItem = ({ user }) => {
     let navigate = useNavigate()
-    const params = useParams()
+
     return (
         <Col
             m={6}
             s={12}
         >
             <Collection>
-                <CollectionItem className="avatar" onClick={() => navigate(`/users/${user.username}`)}>
-                    <img
-                        alt=""
-                        className="circle"
-                        src="https://materializecss.com/images/yuna.jpg"
-                    />
-                    <span className="title">
-                        {user.username}
-                    </span>
-                    <p>
-                        {user.email}
-                    </p>
+                <CollectionItem className="avatar">
+                    <div onClick={() => navigate(`/users/${user.username}`)}>
+                        <img
+                            alt=""
+                            className="circle"
+                            src={user.avatar ? "/" + user.avatar : "/avatar.png"}
+                        />
+                        <span className="title">
+                            {user.username}
+                        </span>
+                        <p>
+                            {user.email}
+                        </p>
+                    </div>
                     <a
                         className="secondary-content"
                     >

@@ -5,6 +5,6 @@ const UserController = require("../controllers/UserController")
 
 router.get('/', authMiddleware, UserController.getAll)
 router.get('/:username', authMiddleware, UserController.getUserInfo)
-router.put('/update/:id', authMiddleware, UserController.updateUser)
+router.put('/update', authMiddleware, UserController.updateUser)
 
 module.exports = router

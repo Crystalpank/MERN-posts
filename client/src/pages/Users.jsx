@@ -5,10 +5,15 @@ import UserService from '../API/UserService';
 import { AuthContext } from '../App';
 import { useFetching } from '../hooks/fetch.hook';
 import UserList from '../components/User/UserList';
+import { useMemo } from 'react';
 
 const Users = () => {
     const [users, setUsers] = useState([])
-    const { token } = useContext(AuthContext)
+    const { token, username } = useContext(AuthContext)
+    const userList = useMemo(() => {
+        return users.filter(user => user.username !== username)
+    }, [users, username])
+    
     const [usersFetching, isLoadingUsers, errorUsers] = useFetching(async () => {
         const response = await UserService.getUserList(token)
         setUsers(response)
@@ -19,7 +24,7 @@ const Users = () => {
 
     return (
         <div className="users-wrapper">
-            <UserList users={users}/>
+            <UserList users={userList} />
         </div>
     );
 }

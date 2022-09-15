@@ -1,25 +1,78 @@
-.navbar{
+.navbar {
     padding: 0 10px;
 }
-.auth-page{
+
+.auth-page {
     text-align: center;
     max-width: 600px;
     margin: 0 auto;
     margin-top: 150px;
 }
-.btn-reg{
+
+.btn-reg {
     margin-left: 25px;
 }
-.auth-input{
+
+.auth-input {
     width: 100%;
 }
-.navbar-btns{
+
+.navbar-btns {
     display: flex;
 }
-.alert-btn{
+
+.alert-btn {
     background-color: #f00;
     color: #fff;
 }
-@media(max-width:768px) {
-    
+
+.cg_postItem-likes {
+    display: flex;
+    align-items: center;
+    max-width: fit-content;
+
 }
+
+.cg_postItem-likes:hover {
+    cursor: pointer;
+}
+
+.cg_postItem-likes span.count-like {
+    margin-left: 0.5rem;
+}
+
+.cg_postItem-likes.active .icon-like {
+    transition: color 1.5s;
+    animation-duration: 1s;
+    animation-name: like_animation;
+    color: rgba(218, 35, 172, 0.644);
+}
+
+.cg_postItem-likes.active .count-like {
+    transition: color 1.5s;
+    color: rgba(218, 35, 172, 0.644);
+}
+
+@keyframes like_animation {
+    0% {
+        transform: rotate(0) scale(1);
+    }
+
+    25% {
+        transform: rotate(-45deg) scale(2);
+    }
+
+    75% {
+        transform: rotate(45deg) scale(2);
+    }
+
+    100% {
+        transform: rotate(0) scale(1);
+    }
+}
+
+.cg_postItem-description {
+    margin-top: 1rem;
+}
+
+@media(max-width:768px) {}

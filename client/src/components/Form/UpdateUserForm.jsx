@@ -1,44 +1,40 @@
 import React, { useContext, useState } from 'react';
-import PostService from '../../API/PostService';
 import { AuthContext } from '../../App';
-import { useFetching } from '../../hooks/fetch.hook';
+import UserService from '../../API/UserService';
 import { Button, TextInput, Icon } from "react-materialize"
+import { useFetching } from '../../hooks/fetch.hook';
 
-const AddPostForm = ({ create }) => {
-    const { token, username } = useContext(AuthContext)
-    const [title, setTitle] = useState('')
+const UpdateUserForm = () => {
+    const { token, userId, username } = useContext(AuthContext)
     const [selectedFile, setselectedFile] = useState(null)
+    const [newUsername, setNewUserName] = useState(username)
 
-    const [createPostFetching, isLoadingCreatePost, errorCreatePost] = useFetching(async () => {
-        const newPost = await PostService.createPost({ token, username, title, selectedFile })
-        create(newPost)
-        setTitle('')
+    const [updateUserFetching, isLoadingUpdateUser, errorUpdateUser] = useFetching(async () => {
+        const newUserData = await UserService.updateUser({ token, newUsername, userId, selectedFile })
+
         setselectedFile(null)
+        console.log(errorUpdateUser)
     })
-
-
-
 
     const sendForm = (e) => {
         e.preventDefault()
         if (!selectedFile) {
             return
         }
-        createPostFetching()
+        updateUserFetching()
     }
 
     return (
         <div>
-            <h4>Добавить фото</h4>
+            <h4>Изменить данные</h4>
             <form className="form form_addPost">
-
                 <TextInput
                     className=""
-                    label="Название"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)} />
+                    label="Никнейм"
+                    value={newUsername}
+                    onChange={(e) => setNewUserName(e.target.value)} />
                 <TextInput
-                    label="Изображение"
+                    label="Аватар"
                     type="file"
                     name="files"
                     onChange={(e) => setselectedFile(e.target.files[0])} />
@@ -57,4 +53,4 @@ const AddPostForm = ({ create }) => {
     );
 }
 
-export default AddPostForm;
+export default UpdateUserForm;

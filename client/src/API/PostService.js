@@ -44,6 +44,4 @@ export default class PostService {
         return response.data
     }
 
-    
-
 }
