@@ -29,12 +29,12 @@ const MyPostItem = ({ post, remove, setLike }) => {
                     <div className="card-content">
                         <div>
                             <span className="card-title grey-text text-darken-4 m-0">{post.title}
-                                <div className='dropdown-trigger right' data-target={Date.now()}>
+                                <div className='dropdown-trigger right' data-target={post._id}>
                                     <Icon>more_vert</Icon>
                                 </div>
                             </span>
                                 
-                            <ul id={Date.now()} className='dropdown-content'>
+                            <ul id={post._id} className='dropdown-content'>
                                 <li><a onClick={() => remove(post._id)}>Удалить</a></li>
                             </ul>
                         </div>
