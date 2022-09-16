@@ -1,52 +1,37 @@
 import React from 'react';
-import { Card, Row, Col, Icon, CardTitle, Button } from 'react-materialize';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
+import { Icon } from 'react-materialize';
 import { AuthContext } from '../../App';
 
 const PostItem = ({ post, setLike }) => {
     const { token, username } = useContext(AuthContext)
-    const [localLike, setLocalLike] = useState(post.likes)
     const classList = ["cg_postItem-likes"]
 
     if (post.whoLikes.includes(username)) {
         classList.push("active")
     }
-    const doLike = (e) => {
-        if (e.target.parentElement.classList.contains("active")){
-            setLocalLike(prev => prev - 1)
-            e.target.parentElement.classList.remove("active")
-        }else{
-            setLocalLike(prev => prev + 1)
-            e.target.parentElement.classList.add("active")
-        }
-        
-        setLike(post)
-    }
 
     return (
-        <div className="post-item">
-            <Col
-                m={6}
-                s={12}>
-                <Card
-                    closeIcon={<Icon>close</Icon>}
-                    header={<CardTitle image={`/${post.image}`} reveal waves="light" />}
-                    reveal={
-                        <div className="cg_postItem-description">
-                            {/* <p>Here is some more information about this product that is only revealed once clicked on.</p> */}
-                            
-                        </div>
-                    }
-                    revealIcon={<Icon>more_vert</Icon>}
-                    title={post.title}>
-                    <div className={classList.join(" ")} onClick={doLike}>
-
-                        <Icon className="icon-like">favorite</Icon>
-
-                        <span className="count-like">{localLike}</span>
+        <div className="col s12 m6">
+            <div className="post-item">
+                <div className="card">
+                    <div className="card-image">
+                        <img className="" src={`/${post.image}`} />
                     </div>
-                </Card>
-            </Col>
+
+                    <div className="card-content">
+                        <div>
+                            <span className="card-title grey-text text-darken-4 m-0">{post.title}</span>
+                        </div>
+                        <p>{post._id}</p>
+                        <div className={classList.join(" ")} onClick={() => setLike(post)}>
+                            <Icon className="icon-like">favorite</Icon>
+                            <span className="count-like">{post.likes}</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     );
 }

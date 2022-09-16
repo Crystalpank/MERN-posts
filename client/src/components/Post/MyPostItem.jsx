@@ -21,11 +21,11 @@ const MyPostItem = ({ post, remove, setLike }) => {
     return (
         <div className="col s12 m6">
             <div className="post-item">
+
                 <div className="card">
                     <div className="card-image">
                         <img className="" src={`/${post.image}`} />
                     </div>
-                    
                     <div className="card-content">
                         <div>
                             <span className="card-title grey-text text-darken-4 m-0">{post.title}
@@ -33,7 +33,7 @@ const MyPostItem = ({ post, remove, setLike }) => {
                                     <Icon>more_vert</Icon>
                                 </div>
                             </span>
-                                
+
                             <ul id={post._id} className='dropdown-content'>
                                 <li><a onClick={() => remove(post._id)}>Удалить</a></li>
                             </ul>

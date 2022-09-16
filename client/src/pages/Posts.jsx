@@ -23,7 +23,7 @@ const Posts = () => {
     }, [posts])
     const [postsFetching, isLoadingPosts, errorPosts] = useFetching(async () => {
         const response = await PostService.getPosts(token, username)
-        setPosts(response)
+        setPosts(response.reverse())
     })
 
     const [userFetching, isLoadingUser, errorUser] = useFetching(async () => {

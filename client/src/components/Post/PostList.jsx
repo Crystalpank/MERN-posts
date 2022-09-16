@@ -6,7 +6,7 @@ const PostList = ({ posts, setLike }) => {
         <div className="posts-wrapper">
             <Row>
                 {
-                    posts.map((post, index) => <PostItem key={index} post={post} setLike={setLike} />).reverse()
+                    posts.map((post, index) => <PostItem key={index} post={post} setLike={setLike} />)
                 }
             </Row>
         </div>
