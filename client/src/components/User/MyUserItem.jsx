@@ -15,19 +15,17 @@ const MyUserItem = ({ user, setUserModal }) => {
                         className="circle"
                         src={user.avatar ? "/" + user.avatar : "/avatar.png"}
                     />
-                    <span className="title">
+                    <span className="user_title title">
                         {user.username}
                     </span>
-                    <p>
+                    <p className="user_description">
                         {user.email}
                     </p>
-                    <a
-                        className="secondary-content"
-                    >
+                    <div className="secondary-content user_moreBtn">
                         <Icon onClick={() => setUserModal(true)}>
                             border_color
                         </Icon>
-                    </a>
+                    </div>
                 </CollectionItem>
             </Collection>
         </Col>

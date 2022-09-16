@@ -12,26 +12,24 @@ const UserItem = ({ user }) => {
         >
             <Collection>
                 <CollectionItem className="avatar">
-                    <div onClick={() => navigate(`/users/${user.username}`)}>
+                    <div className="user_infoBlock" onClick={() => navigate(`/users/${user.username}`)}>
                         <img
                             alt=""
                             className="circle"
                             src={user.avatar ? "/" + user.avatar : "/avatar.png"}
                         />
-                        <span className="title">
+                        <span className="user_title title">
                             {user.username}
                         </span>
-                        <p>
+                        <p className="user_description">
                             {user.email}
                         </p>
                     </div>
-                    <a
-                        className="secondary-content"
-                    >
+                    <div className="secondary-content user_moreBtn">
                         <Icon>
                             grade
                         </Icon>
-                    </a>
+                    </div>
                 </CollectionItem>
             </Collection>
         </Col>

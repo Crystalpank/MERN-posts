@@ -57,6 +57,8 @@ const Posts = () => {
             post.whoLikes.push(username)
             post.likes++
         }
+        let copy = Object.assign([], posts)
+        setPosts(copy)
         const response = await PostService.updatePost(token, post)
         console.log(response)
     })

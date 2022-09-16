@@ -45,6 +45,7 @@ class PostController {
         try {
             const { id } = req.params
             const post = await Post.findByIdAndDelete(id)
+            const deletedFile = FileService.deleteFile(post.image)
             return res.json(post)
         } catch (e) {
             res.status(500).json(e)

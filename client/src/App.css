@@ -30,7 +30,7 @@
     display: flex;
     align-items: center;
     max-width: fit-content;
-
+    margin-top: 1rem;
 }
 
 .cg_postItem-likes:hover {
@@ -45,12 +45,35 @@
     transition: color 1.5s;
     animation-duration: 1s;
     animation-name: like_animation;
-    color: rgba(218, 35, 172, 0.644);
+    color: rgba(189, 16, 48, 0.64);
 }
 
 .cg_postItem-likes.active .count-like {
     transition: color 1.5s;
-    color: rgba(218, 35, 172, 0.644);
+    color: rgba(189, 16, 48, 0.64);
+}
+
+.user_description {
+    font-size: 12px;
+}
+
+.user_title {
+    font-weight: 600;
+}
+
+.user_moreBtn {
+    cursor: pointer;
+}
+
+.user_infoBlock {
+    cursor: pointer;
+}
+
+nav .sidenav-trigger {
+    float: right !important;
+}
+.card .card-content .card-title {
+margin-bottom: 0;
 }
 
 @keyframes like_animation {
@@ -73,6 +96,22 @@
 
 .cg_postItem-description {
     margin-top: 1rem;
+}
+
+.header {
+    margin-bottom: 2rem;
+}
+
+.navbar-btns {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-item_btns {
+    border: 1px solid #eee;
+    padding-left: 3rem;
+    cursor: pointer;
+    border-top: 1px;
 }
 
 @media(max-width:768px) {}
