@@ -26,7 +26,7 @@ const MyNavbar = () => {
 
                 <div className="container ">
                     {
-                        window.location.pathname !== "/" &&
+                        (window.location.pathname !== "/" && window.location.pathname !== "/login" ) &&
                             <a className="left arrow-back" onClick={() => navigate(-1)}><Icon>chevron_left</Icon></a>
                     }
 
