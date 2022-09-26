@@ -1,5 +1,6 @@
 const Post = require("../models/Post")
-const FileService = require("../services/fileService")
+const FileService = require("../services/FileService")
+const TimeService = require("../services/TimeService")
 
 class PostController {
     async create(req, res) {
@@ -7,13 +8,14 @@ class PostController {
             const file = req.files.image
             const { title, username } = req.body
             const filename = FileService.saveFile(file)
+            const date = TimeService.getDateMonthYear()
             const post = await Post.create({
                 username,
                 title,
-                image: filename
+                image: filename,
+                date
             })
-
-            return res.json(post)
+            await res.json(post)
         } catch (e) {
             res.status(500).json(e)
             console.log(e)
@@ -21,11 +23,11 @@ class PostController {
     }
 
     async getMyPosts(req, res) {
-
         try {
-            const { username } = req.query
-            const post = await Post.find({ username })
-            return res.json(post)
+            const { username, limit, page } = req.query
+            const posts = await Post.find({ username })
+            const limitPosts = posts.reverse().filter((p, i) => ((i >= limit * (page - 1)) && (i < limit * page)))
+            return res.json({ posts: limitPosts, count: posts.length })
         } catch (e) {
             res.status(500).json(e)
         }
@@ -35,7 +37,7 @@ class PostController {
         try {
             const { username } = req.params
             const post = await Post.find({ username })
-            return res.json(post)
+            return res.json(post.reverse())
         } catch (e) {
             res.status(500).json(e)
         }
@@ -65,7 +67,7 @@ class PostController {
         }
     }
 
-    
+
 
 }
 

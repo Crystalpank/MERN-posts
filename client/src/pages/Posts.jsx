@@ -1,7 +1,6 @@
 import React from 'react';
-import { useMemo } from 'react';
-import { useContext, useState, useEffect, useCallback } from 'react';
-import { Button } from 'react-materialize';
+import { useContext, useState, useEffect, useCallback, useRef } from 'react';
+import { Button, Preloader } from 'react-materialize';
 import PostService from '../API/PostService';
 import UserService from '../API/UserService';
 import { AuthContext } from '../App';
@@ -11,19 +10,26 @@ import Modal from '../components/Modal/Modal';
 import MyPostList from '../components/Post/MyPostList';
 import MyUserItem from '../components/User/MyUserItem';
 import { useFetching } from '../hooks/fetch.hook';
+import { usePosts } from '../hooks/posts.hook';
+import { getPageCount } from '../utils/pages'
+import { useObserver } from '../hooks/observer.hook'
 
 const Posts = () => {
     const { token, username } = useContext(AuthContext)
     const [posts, setPosts] = useState([])
+    const [limit, setLimit] = useState(3)
+    const [totalPages, setTotalPages] = useState(0)
+    const [page, setPage] = useState(1)
     const [user, setUser] = useState([])
     const [postModal, setPostModal] = useState(false)
     const [userModal, setUserModal] = useState(false)
-    const postsList = useMemo(() => {
-        return posts
-    }, [posts])
+    const memoPosts = usePosts(posts)
+    const lastElement = useRef()
+
     const [postsFetching, isLoadingPosts, errorPosts] = useFetching(async () => {
-        const response = await PostService.getPosts(token, username)
-        setPosts(response.reverse())
+        const response = await PostService.getPostsLimit(token, username, page, limit)
+        setPosts([...posts, ...response.posts])
+        setTotalPages(getPageCount(response.count, limit))
     })
 
     const [userFetching, isLoadingUser, errorUser] = useFetching(async () => {
@@ -32,10 +38,17 @@ const Posts = () => {
         console.log(response)
     })
 
+    useObserver(lastElement, page < totalPages, isLoadingPosts, () => {
+        setPage(page + 1);
+    })
+
     useEffect(() => {
-        postsFetching()
         userFetching()
     }, [])
+
+    useEffect(() => {
+        postsFetching()
+    }, [page, limit])
 
     const removePost = useCallback(async (id) => {
         setPosts(posts.filter(p => p._id !== id))
@@ -43,7 +56,7 @@ const Posts = () => {
     })
 
     const createPost = useCallback((newPost) => {
-        setPosts([...posts, newPost])
+        setPosts([newPost, ...posts])
         setPostModal(false)
         console.log(newPost)
     })
@@ -57,8 +70,7 @@ const Posts = () => {
             post.whoLikes.push(username)
             post.likes++
         }
-        let copy = Object.assign([], posts)
-        setPosts(copy)
+        setPosts(prev => [...posts])
         const response = await PostService.updatePost(token, post)
         console.log(response)
     })
@@ -67,14 +79,25 @@ const Posts = () => {
         <div className="container">
             <Button onClick={() => setPostModal(true)}>Добавить</Button>
             <Modal visible={userModal} setVisible={setUserModal}>
-                <UpdateUserForm />
+                <UpdateUserForm closeModal={() => setUserModal(false)} />
             </Modal>
             <Modal visible={postModal} setVisible={setPostModal}>
                 <AddPostForm create={createPost} />
             </Modal>
 
-            <MyUserItem user={user} setUserModal={setUserModal} />
-            <MyPostList posts={postsList} remove={removePost} setLike={setLike} />
+            {
+                isLoadingUser ?
+                    <Preloader
+                        active
+                        color="blue"
+                        flashing={false}
+                        size="big"
+                    /> :
+                    <MyUserItem user={user} setUserModal={setUserModal} />
+            }
+            <MyPostList posts={memoPosts} remove={removePost} setLike={setLike} />
+            <div ref={lastElement} style={{height:20}}></div>
+
         </div>
     );
 }

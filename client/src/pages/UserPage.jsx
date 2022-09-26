@@ -9,8 +9,8 @@ import PostList from '../components/Post/PostList';
 import UserItem from '../components/User/UserItem';
 
 const UserPage = () => {
-    const { token, username } = useContext(AuthContext)
     const params = useParams()
+    const { token, username } = useContext(AuthContext)
     const [posts, setPosts] = useState([])
     const [user, setUser] = useState({})
 
@@ -37,8 +37,7 @@ const UserPage = () => {
             post.whoLikes.push(username)
             post.likes++
         }
-        let copy = Object.assign([], posts)
-        setPosts(copy)
+        setPosts(prev => [...posts])
         const response = await PostService.updatePost(token, post)
         console.log(response)
     })

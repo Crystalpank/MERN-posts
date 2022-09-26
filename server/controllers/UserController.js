@@ -1,5 +1,5 @@
 const User = require("../models/User")
-const FileService = require("../services/fileService")
+const FileService = require("../services/FileService")
 
 class UserController {
     async getAll(req, res) {
@@ -43,17 +43,16 @@ class UserController {
             if (!id) {
                 return res.status(400).json({ message: "Неверный ID" })
             }
-            // const busyUser = await User.findOne({username})
-            // if (busyUser) {
-            //     return res.status(400).json({ message: "Такой никнейм занят" })
-            // }
+            const oldUser = await User.findOne({_id: id})
+            const deletedFile = FileService.deleteFile(oldUser.avatar)
+
             const filename = FileService.saveFile(file)
             const user = {
                 _id: id,
                 username: username,
                 avatar: filename
             }
-            console.log(user)
+
             const updatedUser = await User.findByIdAndUpdate(user._id, user, { new: true })
             const safeUser = {
                 _id: updatedUser._id,

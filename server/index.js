@@ -7,7 +7,9 @@ const authRoute = require("./routes/auth.route")
 const todoRoute = require("./routes/post.route")
 const userRoute = require("./routes/user.route")
 const fileUpload = require("express-fileupload")
+const cors = require("./middleware/cors.middleware")
 
+app.use(cors)
 app.use(express.json())
 app.use(express.static("upload"))
 app.use(fileUpload({}))
@@ -16,7 +18,7 @@ app.use("/api/posts", todoRoute)
 app.use("/api/user", userRoute)
 
 const start = async () => {
-    try{
+    try {
         await mongoose.connect(config.get("dbURL"), {
             useNewUrlParser: true,
             useUnifiedTopology: true
@@ -24,11 +26,13 @@ const start = async () => {
         app.listen(PORT, () => {
             console.log(`Server start at PORT ${PORT}`)
         })
-    }catch(e){
+
+    } catch (e) {
         console.log(e)
     }
 
-}
 
+
+}
 
 start()

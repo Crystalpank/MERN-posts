@@ -16,14 +16,14 @@ const PostItem = ({ post, setLike }) => {
             <div className="post-item">
                 <div className="card">
                     <div className="card-image">
-                        <img className="" src={`/${post.image}`} />
+                        <img className="" src={process.env.REACT_APP_SERVER_URL + "/" + post.image} />
                     </div>
 
                     <div className="card-content">
                         <div>
                             <span className="card-title grey-text text-darken-4 m-0">{post.title}</span>
                         </div>
-                        <p>{post._id}</p>
+                        <p>{post.date}</p>
                         <div className={classList.join(" ")} onClick={() => setLike(post)}>
                             <Icon className="icon-like">favorite</Icon>
                             <span className="count-like">{post.likes}</span>

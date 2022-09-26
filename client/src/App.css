@@ -72,10 +72,16 @@
 nav .sidenav-trigger {
     float: right !important;
 }
-.card .card-content .card-title {
-margin-bottom: 0;
-}
 
+.card .card-content .card-title {
+    margin-bottom: 0;
+}
+.header .arrow-back{
+    display: none;
+}   
+.header .arrow-back i{
+    font-size: 32px;
+}   
 @keyframes like_animation {
     0% {
         transform: rotate(0) scale(1);
@@ -113,5 +119,14 @@ margin-bottom: 0;
     cursor: pointer;
     border-top: 1px;
 }
-
-@media(max-width:768px) {}
+@media(max-width:992px) {
+    .header .arrow-back{
+        display: inline-block;
+    }
+}
+@media(min-width:601px) {
+    .header .arrow-back i{
+        height: 64px;
+        line-height: 64px;
+    }
+}

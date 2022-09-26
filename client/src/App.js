@@ -4,7 +4,7 @@ import MyNavbar from './components/Navbar/MyNavbar'
 import { Preloader } from 'react-materialize'
 import { useAuth } from './hooks/auth.hook'
 import { privateRouters, publicRouters } from './router'
-import { createContext, useEffect } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import { useFetching } from './hooks/fetch.hook'
 import AuthService from "./API/AuthService"
 
@@ -13,12 +13,14 @@ export const AuthContext = createContext(null)
 function App() {
 
   const { login, logout, token, userId, isAuth, username } = useAuth()
+  const [indicatorLoadPage, setIndicatorLoadPage] = useState(true)
 
   const [authFetching, isLoadingAuth, errorAuth] = useFetching(async () => {
     const response = await AuthService.auth(JSON.parse(localStorage.getItem("crystalgram_userData")).jwtToken)
     if (response.token) {
       login(response.token, response.user.id, response.user.username)
-    }else{
+      setIndicatorLoadPage(false)
+    } else {
       logout()
     }
   })
@@ -27,7 +29,7 @@ function App() {
     authFetching()
   }, [])
 
-  if (isLoadingAuth) {
+  if (indicatorLoadPage) {
     return <Preloader
       active
       color="blue"

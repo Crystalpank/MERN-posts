@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Navbar, NavItem, Icon } from "react-materialize"
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../App';
 
 const MyNavbar = () => {
     const { logout, isAuth } = useContext(AuthContext)
     const [instance, setInstance] = useState(null)
     let navigate = useNavigate()
+
     useEffect(() => {
         const sideNav = document.querySelector(".sidenav");
         window.M.Sidenav.init(sideNav, { edge: "right" });
         setInstance(window.M.Sidenav.getInstance(sideNav));
+
     }, []);
 
     const redirect = (to) => {
@@ -23,7 +25,10 @@ const MyNavbar = () => {
             <nav className="nav-wrapper teal">
 
                 <div className="container ">
-
+                    {
+                        window.location.pathname !== "/" &&
+                            <a className="left arrow-back" onClick={() => navigate(-1)}><Icon>chevron_left</Icon></a>
+                    }
 
                     <a href="#!" className="brand-logo">Crystalgram</a>
                     {isAuth && <a href="#" data-target="mobile-demo" className="sidenav-trigger"><Icon>menu</Icon></a>}

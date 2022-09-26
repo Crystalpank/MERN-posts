@@ -16,9 +16,6 @@ const AddPostForm = ({ create }) => {
         setselectedFile(null)
     })
 
-
-
-
     const sendForm = (e) => {
         e.preventDefault()
         if (!selectedFile) {
@@ -42,16 +39,24 @@ const AddPostForm = ({ create }) => {
                     type="file"
                     name="files"
                     onChange={(e) => setselectedFile(e.target.files[0])} />
-                <Button
-                    node="button"
-                    type="submit"
-                    waves="light"
-                    onClick={sendForm}>
-                    Отправить
-                    <Icon right>
-                        send
-                    </Icon>
-                </Button>
+                {
+                    isLoadingCreatePost ?
+                        <div className="progress">
+                            <div className="indeterminate"></div>
+                        </div>
+                        :
+                        <Button
+                            node="button"
+                            type="submit"
+                            waves="light"
+                            onClick={sendForm}>
+                            Отправить
+                            <Icon right>
+                                send
+                            </Icon>
+                        </Button>
+                }
+
             </form>
         </div>
     );

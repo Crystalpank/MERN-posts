@@ -2,5 +2,6 @@
     "dbURL":"mongodb://localhost:27017/Posts",
     "PORT":5000,
     "secretKey":"fahur49734jmqf",
-    "serverUrl": "http://192.168.0.118:5000/"
+    "serverUrl": "http://192.168.0.118:5000/",
+    "domainUrl": "http://192.168.0.118:3000"
 }

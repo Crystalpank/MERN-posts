@@ -4,7 +4,7 @@ import UserService from '../../API/UserService';
 import { Button, TextInput, Icon } from "react-materialize"
 import { useFetching } from '../../hooks/fetch.hook';
 
-const UpdateUserForm = () => {
+const UpdateUserForm = ({closeModal}) => {
     const { token, userId, username } = useContext(AuthContext)
     const [selectedFile, setselectedFile] = useState(null)
     const [newUsername, setNewUserName] = useState(username)
@@ -21,6 +21,7 @@ const UpdateUserForm = () => {
         if (!selectedFile) {
             return
         }
+        closeModal()
         updateUserFetching()
     }
 

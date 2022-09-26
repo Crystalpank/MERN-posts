@@ -6,7 +6,6 @@ import { AuthContext } from '../../App';
 
 const MyPostItem = ({ post, remove, setLike }) => {
     const { token, username } = useContext(AuthContext)
-    // const [localLike, setLocalLike] = useState(post.likes)
     const classList = ["cg_postItem-likes"]
 
     if (post.whoLikes.includes(username)) {
@@ -24,7 +23,7 @@ const MyPostItem = ({ post, remove, setLike }) => {
 
                 <div className="card">
                     <div className="card-image">
-                        <img className="" src={`/${post.image}`} />
+                        <img className="" src={process.env.REACT_APP_SERVER_URL + "/" + post.image} />
                     </div>
                     <div className="card-content">
                         <div>
@@ -38,7 +37,7 @@ const MyPostItem = ({ post, remove, setLike }) => {
                                 <li><a onClick={() => remove(post._id)}>Удалить</a></li>
                             </ul>
                         </div>
-                        <p>{post._id}</p>
+                        <p>{post.date}</p>
                         <div className={classList.join(" ")} onClick={() => setLike(post)}>
                             <Icon className="icon-like">favorite</Icon>
                             <span className="count-like">{post.likes}</span>

@@ -16,7 +16,7 @@ const UserItem = ({ user }) => {
                         <img
                             alt=""
                             className="circle"
-                            src={user.avatar ? "/" + user.avatar : "/avatar.png"}
+                            src={user.avatar ? process.env.REACT_APP_SERVER_URL + "/" + user.avatar : process.env.REACT_APP_SERVER_URL + "/avatar.png"}
                         />
                         <span className="user_title title">
                             {user.username}
