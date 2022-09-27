@@ -2,7 +2,7 @@ const uuid = require("uuid")
 const path = require("path")
 const fs = require("fs")
 const Jimp = require("jimp")
-const Resize = require("./jimp-patch-rotate")
+const Rotate = require("./jimp-patch-rotate")
 
 class FileService {
     saveFile(file) {
@@ -16,13 +16,13 @@ class FileService {
                 if (image.bitmap.width >= image.bitmap.height) {
                     const newHeight = 1024 / ratio
                     image
-                        .flip(true, true)
                         .resize(1024, newHeight)
+                        .flip(true, true)
                 } else {
                     const newWidth = 1024 * ratio
                     image
                         .resize(newWidth, 1024)
-                        image = Resize(90, image)
+                    image = Rotate(90, image)
                 }
                 image
                     .quality(75)
