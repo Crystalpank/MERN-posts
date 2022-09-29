@@ -9,8 +9,8 @@ export default class UserService {
         })
         return response.data
     }
-    static async getUser(token, username) {
-        const response = await axios.get(process.env.REACT_APP_SERVER_URL + `/api/user/${username}`, {
+    static async getUser(token, id) {
+        const response = await axios.get(process.env.REACT_APP_SERVER_URL + `/api/user/${id}`, {
             headers: {
                 'Authorization': 'Bearer ' + token
             }

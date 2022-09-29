@@ -15,7 +15,7 @@ import { getPageCount } from '../utils/pages'
 import { useObserver } from '../hooks/observer.hook'
 
 const Posts = () => {
-    const { token, username } = useContext(AuthContext)
+    const { token, userId, username } = useContext(AuthContext)
     const [posts, setPosts] = useState([])
     const [limit, setLimit] = useState(3)
     const [totalPages, setTotalPages] = useState(0)
@@ -27,13 +27,13 @@ const Posts = () => {
     const lastElement = useRef()
 
     const [postsFetching, isLoadingPosts, errorPosts] = useFetching(async () => {
-        const response = await PostService.getPostsLimit(token, username, page, limit)
+        const response = await PostService.getPostsLimit(token, userId, page, limit)
         setPosts([...posts, ...response.posts])
         setTotalPages(getPageCount(response.count, limit))
     })
 
     const [userFetching, isLoadingUser, errorUser] = useFetching(async () => {
-        const response = await UserService.getUser(token, username)
+        const response = await UserService.getUser(token, userId)
         setUser(response)
         console.log(response)
     })

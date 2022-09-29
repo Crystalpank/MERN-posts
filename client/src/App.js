@@ -29,7 +29,6 @@ function App() {
     authFetching()
   }, [])
 
-
   return (
     <AuthContext.Provider value={{
       login,

@@ -5,12 +5,12 @@ import { useFetching } from '../../hooks/fetch.hook';
 import { Button, TextInput, Icon } from "react-materialize"
 
 const AddPostForm = ({ create }) => {
-    const { token, username } = useContext(AuthContext)
+    const { token, username, userId } = useContext(AuthContext)
     const [title, setTitle] = useState('')
     const [selectedFile, setselectedFile] = useState(null)
 
     const [createPostFetching, isLoadingCreatePost, errorCreatePost] = useFetching(async () => {
-        const newPost = await PostService.createPost({ token, username, title, selectedFile })
+        const newPost = await PostService.createPost({ token, userId, username, title, selectedFile })
         create(newPost)
         setTitle('')
         setselectedFile(null)

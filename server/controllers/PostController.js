@@ -6,10 +6,11 @@ class PostController {
     async create(req, res) {
         try {
             const file = req.files.image
-            const { title, username } = req.body
+            const { title, username, id } = req.body
             const filename = FileService.saveFile(file)
             const date = TimeService.getDateMonthYear()
             const post = await Post.create({
+                owner: id,
                 username,
                 title,
                 image: filename,
@@ -24,8 +25,8 @@ class PostController {
 
     async getMyPosts(req, res) {
         try {
-            const { username, limit, page } = req.query
-            const posts = await Post.find({ username })
+            const { id, limit, page } = req.query
+            const posts = await Post.find({ owner: id })
             const limitPosts = posts.reverse().filter((p, i) => ((i >= limit * (page - 1)) && (i < limit * page)))
             return res.json({ posts: limitPosts, count: posts.length })
         } catch (e) {

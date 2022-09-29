@@ -15,6 +15,7 @@ module.exports = (req, res, next) => {
         req.user = decoded
         next()
     } catch (e) {
-        return res.status(401).json({message: 'Auth error'})
+        return res.send({message: 'Token expired'})
+        // return res.status(401).json({message: 'Auth error'})
     }
 }

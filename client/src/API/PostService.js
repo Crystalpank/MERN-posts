@@ -12,9 +12,9 @@ export default class PostService {
     //     return response.data
     // }
 
-    static async getPostsLimit(token, username, page, limit = 3) {
+    static async getPostsLimit(token, id, page, limit = 3) {
         const response = await axios.get(process.env.REACT_APP_SERVER_URL + '/api/posts', {
-            params: { username, limit, page },
+            params: { id, limit, page },
             headers: {
                 'Authorization': 'Bearer ' + token
             }
@@ -24,6 +24,7 @@ export default class PostService {
 
     static async createPost(createData) {
         let formData = new FormData()
+        formData.append("id", createData.userId)
         formData.append("username", createData.username)
         formData.append("title", createData.title)
         formData.append("image", createData.selectedFile)

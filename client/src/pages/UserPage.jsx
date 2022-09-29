@@ -1,30 +1,46 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useContext, useState, useCallback } from 'react';
-import { useFetching } from '../hooks/fetch.hook';
+import React, { useEffect } from 'react'
+import { useParams, useLocation } from 'react-router-dom'
+import { useContext, useState, useCallback, useRef } from 'react'
+import { useFetching } from '../hooks/fetch.hook'
 import PostService from "../API/PostService"
 import UserService from "../API/UserService"
-import { AuthContext } from '../App';
-import PostList from '../components/Post/PostList';
-import UserItem from '../components/User/UserItem';
+import { AuthContext } from '../App'
+import PostList from '../components/Post/PostList'
+import UserItem from '../components/User/UserItem'
+import { getPageCount } from '../utils/pages'
+import { useObserver } from '../hooks/observer.hook'
 
 const UserPage = () => {
     const params = useParams()
     const { token, username } = useContext(AuthContext)
     const [posts, setPosts] = useState([])
+    const [limit, setLimit] = useState(3)
+    const [totalPages, setTotalPages] = useState(0)
+    const [page, setPage] = useState(1)
     const [user, setUser] = useState({})
+    const lastElement = useRef()
+    const location = useLocation()
+    const userId = location.state?.user._id
 
     const [postsFetching, isLoadingPosts, errorPosts] = useFetching(async () => {
-        const response = await PostService.getPosts(token, params.username)
-        setPosts(response)
+        const response = await PostService.getPostsLimit(token, userId, page, limit)
+        setPosts([...posts, ...response.posts])
+        setTotalPages(getPageCount(response.count, limit))
     })
     const [userFetching, isLoadingUser, errorUser] = useFetching(async () => {
-        const response = await UserService.getUser(token, params.username)
+        const response = await UserService.getUser(token, userId)
         setUser(response)
-        console.log(response)
     })
+
+    useObserver(lastElement, page < totalPages, isLoadingPosts, () => {
+        setPage(page + 1);
+    })
+
     useEffect(() => {
         postsFetching()
+    }, [page])
+
+    useEffect(() => {
         userFetching()
     }, [])
 
@@ -44,8 +60,9 @@ const UserPage = () => {
 
     return (
         <div>
-            <UserItem user={user}/>
-            <PostList posts={posts} setLike={setLike}/>
+            <UserItem user={user} />
+            <PostList posts={posts} setLike={setLike} />
+            <div ref={lastElement} style={{ height: 20 }}></div>
         </div>
     );
 }

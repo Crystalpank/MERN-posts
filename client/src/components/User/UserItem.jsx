@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Collection, CollectionItem, Icon } from "react-materialize"
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const UserItem = ({ user }) => {
     let navigate = useNavigate()
@@ -12,7 +12,11 @@ const UserItem = ({ user }) => {
         >
             <Collection>
                 <CollectionItem className="avatar">
-                    <div className="user_infoBlock" onClick={() => navigate(`/users/${user.username}`)}>
+                    <Link 
+                    className="user_infoBlock" 
+                    // onClick={() => navigate(`/users/${user.username}`)}
+                    to={`/users/${user.username}`}
+                    state={{user}}>
                         <img
                             alt=""
                             className="circle"
@@ -24,7 +28,7 @@ const UserItem = ({ user }) => {
                         <p className="user_description">
                             {user.email}
                         </p>
-                    </div>
+                    </Link>
                     <div className="secondary-content user_moreBtn">
                         <Icon>
                             grade

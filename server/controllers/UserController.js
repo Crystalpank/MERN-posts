@@ -21,8 +21,8 @@ class UserController {
 
     async getUserInfo(req, res) {
         try {
-            const { username } = req.params
-            const user = await User.findOne({ username })
+            const { id } = req.params
+            const user = await User.findOne({ _id: id })
             const safeUser = {
                 _id: user.id,
                 username: user.username,
